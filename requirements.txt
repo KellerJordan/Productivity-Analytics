@@ -1,3 +1,4 @@
 pymysql
 pandas
-
+torch
+matplotlib
