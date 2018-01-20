@@ -1,0 +1,23 @@
+{
+    "manifest_version": 2,
+    "name": "Productivity Analytics",
+    "version": "0.1",
+
+    "background": {
+        "scripts": [
+            "extension.js"
+        ]
+    },
+
+    "permissions": [
+        "tabs",
+        "nativeMessaging"
+    ],
+
+    "applications": {
+        "gecko": {
+            "id": "productivity-analytics@cruzhacks.com",
+            "strict_min_version": "40.0"
+        }
+    }
+}
