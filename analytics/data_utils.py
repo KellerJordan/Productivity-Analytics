@@ -3,7 +3,7 @@ import pandas
 
 
 def main():
-    df = pandas.read_json('./dataset/history.json')
+    df = pandas.read_json('./datasets/history.json')
     i = 0
     for a in df:
         print(a)
