@@ -1,2 +1,3 @@
 *.json
+!/web_extension/*.json
 
