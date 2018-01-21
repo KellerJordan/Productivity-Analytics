@@ -1,2 +1,12 @@
 # Safety Net
-Chrome/Firefox extension that uses recurrent networks to classify and remove HTML elements that are linked to malicious URL's
+Chrome/Firefox extension that uses recurrent networks to classify and warn you about HTML elements that are linked to malicious URLs.
+
+Link to ![dataset](https://www.kaggle.com/antonyj453/urldataset)
+
+![alt text](images/thumbnail.png "")
+
+Example page with several links from the dataset.
+
+![alt text](images/screenshot.jpg "")
+
+
