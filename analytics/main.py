@@ -2,10 +2,21 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+import pickle
+import sys
+import argparse
+
 
 def main():
-    pass
 
+    # load data and indices
+    with open('datasets/data.pkl', 'rb') as f:
+        url_array, label_array = pickle.load(f)
+
+    with open('datasets/indices.pkl', 'rb') as f:
+        indices = pickle.load(f)
+
+    print(url_array.shape)
 
 
 def train():
