@@ -7,6 +7,8 @@ from torch.autograd import Variable
 
 import numpy as np
 
+from data_utils import *
+
 
 def load_model():
     global indices
@@ -25,6 +27,9 @@ def index():
     return predictions
 
 def predict(urls):
+    print('Received URLs -------------------')
+    print(urls)
+    
     global indices
     global model
     
@@ -39,14 +44,15 @@ def predict(urls):
     # embed characters into numpy array (transition later to scipy sparse matrix)
     url_array = np.zeros((seq_len, num_samples, num_chars+1))
     for i, url in enumerate(urls):
-        for j, c in enumerate(url):
-            url_array[j, i, indices.get(c, num_chars)] = 1
+        url_array[:, i, :] = url2hot(url, indices)
     
     # use trained model to make predictions about maliciousness of urls
     X = torch.Tensor(url_array)
     X_var = Variable(X)
     _, pred = model(X_var).max(1)
     pred = pred.data.numpy().tolist()
+    
+    print('Returning predictions -----------')
     print(pred)
     
     return json.dumps(pred)
