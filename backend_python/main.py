@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 import sys
 import webext
+import userscripts
 
 msg = webext.Messenger()
 
 def main():
-    counter = 0
-
     while msg.listen():
         message = msg.receive()
 
-        counter += 1
-        response = {'count': counter, 'value': message}
+        results = userscripts.execute(message)
+        response = {'messages': results}
 
         msg.send(response)
 
