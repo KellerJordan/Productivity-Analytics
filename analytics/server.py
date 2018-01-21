@@ -21,11 +21,6 @@ def load_model():
 
 @post('/predict')
 def index():
-    #print(request.json)
-    #print(type(request.json))
-    #print(json.loads(request.json))
-    #urls = request.json['urls']
-    print(urls)
     urls = json.loads(request.json)['urls']
     predictions = predict(urls)
     return predictions
@@ -56,9 +51,8 @@ def predict(urls):
     _, pred = model(X_var).max(1)
     pred = pred.data.numpy().tolist()
     
-    print('Returning predictions -----------')
-    print(pred)
-    print(url_array.sum(axis=1))
+    print('Returning predictions: ------------\n',
+          '%d / %d potentially malicious sites found' % (pred.sum(), num_samples)) 
     
     return json.dumps(pred)
 
