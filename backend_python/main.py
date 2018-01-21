@@ -11,7 +11,7 @@ def main():
         message = msg.receive()
 
         counter += 1
-        response = {'count': counter, 'value':message}
+        response = {'count': counter, 'value': message}
 
         msg.send(response)
 
