@@ -21,8 +21,12 @@ def load_model():
 
 @post('/predict')
 def index():
-    urls = request.json['urls']
+    #print(request.json)
+    #print(type(request.json))
+    #print(json.loads(request.json))
+    #urls = request.json['urls']
     print(urls)
+    urls = json.loads(request.json)['urls']
     predictions = predict(urls)
     return predictions
 
@@ -54,6 +58,7 @@ def predict(urls):
     
     print('Returning predictions -----------')
     print(pred)
+    print(url_array.sum(axis=1))
     
     return json.dumps(pred)
 
