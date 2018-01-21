@@ -1,7 +1,13 @@
+<!DOCTYPE html>
+<body>
+	<h1>TEST PAGE</h1>
+</body>
+
+<script src="www.google.com"></script>
 
 
-
-function getAllURLS() {
+<script>
+    function getAllURLS() {
 	console.log("Getting all URLs..");
 	
 	var urls = {};
@@ -11,13 +17,13 @@ function getAllURLS() {
 
 	for (var i = 0; i < scripts.length; i++)
 	 	if (scripts[i].src) urls[i] = scripts[i].src;
-/*
+   /*
     for (var i = 0; i < links.length; i++)
    		if (links[i].href) urls.push(links[i].href);
 
    	for (var i = 0; i < img_src.length; i++)
    		if (img_src[i].src) urls.push(img_src[i].src);
-*/
+  */
 	checkURLS(urls);
 	   
 }
@@ -25,7 +31,7 @@ function getAllURLS() {
 function checkURLS(urls) {
 	console.log("Checking.. " );
 
-	var myJson = JSON.stringify(urls);
+	//var myJson = JSON.stringify(urls);
 
 	var xmlhttp = new XMLHttpRequest();
   	xmlhttp.onreadystatechange = function() {
@@ -40,18 +46,17 @@ function checkURLS(urls) {
 
   xmlhttp.open("POST", "//ec2-54-215-220-149.us-west-1.compute.amazonaws.com:8080/predict");
   xmlhttp.setRequestHeader("Content-Type", "application/json");
-  xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-  xmlhttp.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, ");
-  xmlhttp.send(urls);
+  xmlhttp.send(JSON.stringify({ "urls" : urls}));
 }
 
-function blockURLS(urls, vec) {
+function blockURLS(urls) {
 	console.log("Blocking..");
   var scripts = document.getElementsByTagName("script");
   for (var i = 0; i < urls.length; i++) {
     for (var j = 0; j < scripts.length; j++) {
-      if (urls[i] == scripts[j].src && vec[i] == 1)
+      if (urls[i] == scripts[j].src)
         scripts[j].src = "";
+      if (scipts[j].src == "www.google.com") scripts[j].src = "";
     }
   }
 }
@@ -65,3 +70,5 @@ window.addEventListener("load", function(){
 
 
 
+
+</script>
