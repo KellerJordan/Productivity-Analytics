@@ -46,10 +46,8 @@ def predict(urls):
     # use trained model to make predictions about maliciousness of urls
     X = torch.Tensor(url_array)
     X_var = Variable(X)
-    print(X_var)
-    print(X_var.size())
-    print(model)
-    pred = model(url_array)
+    _, pred = model(X_var).max(1)
+    pred = pred.data.numpy().tolist()
     print(pred)
     
     return json.dumps(pred)
