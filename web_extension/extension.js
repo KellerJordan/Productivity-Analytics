@@ -1,12 +1,11 @@
-var Browser = browser || chrome;
-var port = Browser.runtime.connectNative("BackendPython");
+var port = chrome.runtime.connectNative("BackendPython");
 
 function SendMessage(msg) {
     console.log(msg);
     port.postMessage({content: msg});
 }
 
-Browser.tabs.onCreated.addListener((tab) => {
+chrome.tabs.onCreated.addListener((tab) => {
     if (tab.url) {
         let msg = `Tab open (ID: ${tab.id}, URL: ${tab.url})`;
 
@@ -14,13 +13,13 @@ Browser.tabs.onCreated.addListener((tab) => {
     }
 });
 
-Browser.tabs.onRemoved.addListener((tabId) => {
+chrome.tabs.onRemoved.addListener((tabId) => {
     let msg = `Tab close ${tabId}`;
 
     SendMessage(msg);
 });
 
-Browser.tabs.onUpdated.addListener((tabId, changes) => {
+chrome.tabs.onUpdated.addListener((tabId, changes) => {
     if (changes.url) {
         let msg = `Tab ${tabId} went to ${changes.url}`;
 
