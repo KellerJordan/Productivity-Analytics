@@ -3,7 +3,7 @@ Chrome/Firefox extension that uses recurrent networks to classify and warn you a
 
 Link to ![dataset](https://www.kaggle.com/antonyj453/urldataset)
 
-![alt text](images/thumbnail.png "")
+![alt text](images/thumbnail.jpg "")
 
 Example page with several links from the dataset.
 
