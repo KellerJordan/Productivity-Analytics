@@ -3,8 +3,10 @@ Chrome/Firefox extension that uses recurrent networks to classify and warn you a
 
 Link to ![dataset](https://www.kaggle.com/antonyj453/urldataset)
 
+![devpost page](https://devpost.com/software/insyte/edit)
+
 Example page with several links from the dataset.
 
-![alt text](images/screenshot.jpg "")
+![screenshot](images/screenshot.jpg "")
 
 
