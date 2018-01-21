@@ -45,6 +45,12 @@ def main(args):
     # train model on training data, reporting accuracy on held out validation set
     train(model, (data_train, labels_train), (data_val, labels_val),
           args.num_epochs, args.batch_size)
+    
+    # save model to disk for use in prediction
+    model.eval()
+    path = 'models/char_rnn.pk'
+    print('Saving model to %s' % path)
+    torch.save(model, path)
 
 
 def train(model, train, val, num_epochs, batch_size):
@@ -91,15 +97,15 @@ def check_accuracy(model, data):
     
     print('accuracy: ', num_correct / num_samples)
     # further metrics to monitor due to class imbalance
-    print('true +', label_array.sum() / num_samples)
-    print('pred +', preds.sum() / num_samples)
+    print('true pos:', label_array.sum() / num_samples)
+    print('pred pos:', preds.sum() / num_samples)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data-dir', default='./datasets', type=str,
                         help='path to datasets')
-    parser.add_argument('--num-epochs', default=16, type=int,
+    parser.add_argument('--num-epochs', default=50, type=int,
                         help='number of epochs to train for')
     parser.add_argument('--batch-size', default=16, type=int,
                         help='size of each batch of urls')

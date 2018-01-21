@@ -1,6 +1,10 @@
-from bottle import route, run, post, request
-import torch
+from bottle import post, run, request
 import pickle
+import json
+
+import torch
+from torch.autograd import Variable
+
 
 def load_model():
     global indices
@@ -9,20 +13,40 @@ def load_model():
     with open('datasets/indices.pkl', 'rb') as f:
         indices = pickle.load(f)
     
-#    with open('models/model.pk', 'rb') as f:
-#        model = torch.load(model, f)
+    model = torch.load(model, 'char_rnn.pk')
+    model = model.type(torch.FloatTensor)
 
-        
 @post('/predict')
 def index():
-    print(request.json)
-    # urls = request.post.urls
-    return '3'
+    urls = request.json
+    print(urls)
+    predictions = predict(urls)
+    return predictions
 
 def predict(urls):
     global indices
     global model
-    return [True, False]
+    
+    # hyperparameters -- optimally would have some way to share this with process_data.py
+    num_samples = len(urls)
+    seq_len = 100
+    num_chars = 50
+    
+    # truncate to 100 length
+    urls = [url[:seq_len] for url in urls]
+    
+    # embed characters into numpy array (transition later to scipy sparse matrix)
+    url_array = np.zeros((seq_len, num_samples, num_chars+1))
+    for i, url in enumerate(urls):
+        for j, c in enumerate(url):
+            url_array[j, i, indices.get(c, num_chars)] = 1
+    
+    # use trained model to make predictions about maliciousness of urls
+    X = torch.Tensor(url_array)
+    X_var = Variable(X)
+    pred = model(url_array)
+    
+    return json.dumps(pred)
 
 
 if __name__ == '__main__':
