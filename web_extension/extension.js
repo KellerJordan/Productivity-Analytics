@@ -1,32 +1,91 @@
-var port = chrome.runtime.connectNative("BackendPython");
-
-function SendMessage(msg) {
-    console.log(msg);
-    port.postMessage({content: msg});
-}
+var backendPort = chrome.runtime.connectNative("BackendPython");
 
 chrome.tabs.onCreated.addListener((tab) => {
     if (tab.url) {
-        let msg = `Tab open (ID: ${tab.id}, URL: ${tab.url})`;
-
-        SendMessage(msg);
+        let msg = {
+            type: MessageType.TABOPEN,
+            id: tab.id,
+            url: tab.url
+        };
+        backendPort.postMessage(msg);
     }
 });
 
 chrome.tabs.onRemoved.addListener((tabId) => {
-    let msg = `Tab close ${tabId}`;
-
-    SendMessage(msg);
+    let msg = {
+        type: MessageType.TABCLOSE,
+        id: tabId
+    };
+    backendPort.postMessage(msg);
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changes) => {
     if (changes.url) {
-        let msg = `Tab ${tabId} went to ${changes.url}`;
-
-        SendMessage(msg);
+        let msg = {
+            type: MessageType.URLGOTO,
+            id: tabId,
+            url: changes.url
+        };
+        backendPort.postMessage(msg);
     }
 });
 
-port.onMessage.addListener((msg) => {
-    console.log(`Message received: (Counter: ${msg.count}, Content: ${msg.value.content})`);
-});
+async function OnBackendMessage(msg) {
+    console.log('Messages received:');
+
+    for (let m of msg.messages) {
+        console.log(m);
+
+        switch (m.type) {
+            case ResponseType.GETLINKS: {
+                let dumpMsg = {
+                    action: ContentAction.GETLINKS
+                };
+                let tabId = m.id;
+
+                await chrome.tabs.sendMessage(tabId, dumpMsg);
+                break;
+            }
+            case ResponseType.BLOCKPAGE: {
+                let blockMsg = {
+                    action: ContentAction.BLOCKPAGE,
+                    reason: m.reason
+                };
+                let tabId = m.id;
+
+                await chrome.tabs.sendMessage(tabId, blockMsg);
+                break;
+            }
+            case ResponseType.BLOCKLINKS: {
+                let blockMsg = {
+                    action: ContentAction.BLOCKLINKS,
+                    linkStatus: m.links
+                };
+                let tabId = m.id;
+
+                await chrome.tabs.sendMessage(tabId, blockMsg);
+                break;
+            }
+        }
+    }
+}
+
+backendPort.onMessage.addListener(OnBackendMessage);
+
+function processContentMsg(msg, sender) {
+    console.log(`Content message: ${msg}`);
+
+    switch (msg.type) {
+        case ContentResponse.GETLINKS:
+            let dumpMsg = {
+                id: sender.tab.id,
+                type: MessageType.LINKDUMP,
+                links: msg.links
+            };
+            console.log(dumpMsg.links);
+            backendPort.postMessage(dumpMsg);
+            break;
+    }
+}
+
+chrome.runtime.onMessage.addListener(processContentMsg);
