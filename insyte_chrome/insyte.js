@@ -22,7 +22,7 @@ function blockURL(url) {
     }
   };
 
-  xhttp.open("GET", "https://httpbin.org/get", true); /* Test endpoint */
+  xhttp.open("POST", "http://127.0.0.1:8000/inspect/", true); /* Test endpoint */
   xhttp.send();
 }
 
