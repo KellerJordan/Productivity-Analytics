@@ -3,4 +3,4 @@
 !/web_extension/*.json
 !/backend_python/*.json
 __pycache__/ 
-*.pkl
+data.pkl
