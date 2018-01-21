@@ -1,4 +1,4 @@
-from bottle import route, run
+from bottle import route, run, post, request
 import torch
 import pickle
 
@@ -9,14 +9,15 @@ def load_model():
     with open('datasets/indices.pkl', 'rb') as f:
         indices = pickle.load(f)
     
-    with open('models/model.pk', 'rb') as f:
-        model = torch.load(model, f)
+#    with open('models/model.pk', 'rb') as f:
+#        model = torch.load(model, f)
 
         
-@route('/predict')
+@post('/predict')
 def index():
-    urls = request.post.urls
-    return predict(urls)
+    print(request.json)
+    # urls = request.post.urls
+    return '3'
 
 def predict(urls):
     global indices
