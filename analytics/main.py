@@ -46,8 +46,11 @@ def main(args):
     train(model, (data_train, labels_train), (data_val, labels_val),
           args.num_epochs, args.batch_size)
     
+    # get test accuracy
+    print('Final results on held-out test set: ')
+    check_accuracy(model, (data_test, labels_test))
+    
     # save model to disk for use in prediction
-    model.eval()
     path = 'models/char_rnn.pk'
     print('Saving model to %s' % path)
     torch.save(model, path)
@@ -80,7 +83,6 @@ def train(model, train, val, num_epochs, batch_size):
             optimizer.step()
 
 
-
 def check_accuracy(model, data):
     url_array, label_array = data
     num_samples = label_array.shape[0]
@@ -105,7 +107,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data-dir', default='./datasets', type=str,
                         help='path to datasets')
-    parser.add_argument('--num-epochs', default=50, type=int,
+    parser.add_argument('--num-epochs', default=20, type=int,
                         help='number of epochs to train for')
     parser.add_argument('--batch-size', default=16, type=int,
                         help='size of each batch of urls')
