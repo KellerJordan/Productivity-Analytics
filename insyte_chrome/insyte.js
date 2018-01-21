@@ -36,12 +36,10 @@ function checkURLS(urls) {
     }
   };
 
-  //console.log(myJson);
+  console.log(myJson);
 
   xmlhttp.open("POST", "//ec2-54-215-220-149.us-west-1.compute.amazonaws.com:8080/predict");
   xmlhttp.setRequestHeader("Content-Type", "application/json");
-  xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-  xmlhttp.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, ");
   xmlhttp.send(urls);
 }
 
