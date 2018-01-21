@@ -52,6 +52,7 @@ def main(args):
     # get test accuracy
     print('Final results on held-out test set: ')
     check_accuracy(model, (data_test, labels_test), use_gpu=False)
+    check_accuracy(model, (data_train, labels_train), use_gpu=False)
     
     # save model to disk for use in prediction
     path = 'models/char_rnn.pk'
@@ -62,6 +63,7 @@ def main(args):
 def train(model, train, val, num_epochs, batch_size):
     data_train, labels_train = train
     num_train = data_train.shape[1]
+    print(data_train.shape)
     
     criterion = nn.CrossEntropyLoss().cuda()
     optimizer = optim.Adam(model.parameters())
