@@ -46,9 +46,12 @@ def main(args):
     train(model, (data_train, labels_train), (data_val, labels_val),
           args.num_epochs, args.batch_size)
     
+    # convert model to CPU for use on GPU-less AWS instance
+    model = model.type(torch.FloatTensor)
+    
     # get test accuracy
     print('Final results on held-out test set: ')
-    check_accuracy(model, (data_test, labels_test))
+    check_accuracy(model, (data_test, labels_test), use_gpu=False)
     
     # save model to disk for use in prediction
     path = 'models/char_rnn.pk'
@@ -83,13 +86,16 @@ def train(model, train, val, num_epochs, batch_size):
             optimizer.step()
 
 
-def check_accuracy(model, data):
+def check_accuracy(model, data, use_gpu=True):
     url_array, label_array = data
     num_samples = label_array.shape[0]
     
     X = torch.Tensor(url_array)
     y = torch.LongTensor(label_array)
-    X_var = Variable(X.type(gpu_dtype))
+    if use_gpu:
+        X_var = Variable(X.type(gpu_dtype))
+    else:
+        X_var = Variable(X)
     
     model.eval()
     scores = model(X_var)
@@ -107,7 +113,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data-dir', default='./datasets', type=str,
                         help='path to datasets')
-    parser.add_argument('--num-epochs', default=20, type=int,
+    parser.add_argument('--num-epochs', default=25, type=int,
                         help='number of epochs to train for')
     parser.add_argument('--batch-size', default=16, type=int,
                         help='size of each batch of urls')
