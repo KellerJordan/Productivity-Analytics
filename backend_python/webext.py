@@ -71,4 +71,4 @@ class Messenger(object):
         if len(rawData) != numBytes:
             raise BufferError('Prematurely reached EOF.')
 
-        return json.loads(rawData)
+        return json.loads(rawData.decode('utf-8'))
