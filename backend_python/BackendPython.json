@@ -1,0 +1,13 @@
+{
+    "name": "BackendPython",
+    "description": "...",
+    "path": "[[  Path to main.py  ]]",
+    "type": "stdio",
+    "allowed_extensions": [
+        "productivity-analytics@cruzhacks.com"
+    ],
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt7qX6o2nofdPqBX0xQlDg0MxwZVYIky55wSTIXDufne/KVEZKoGgoh+htS4WotOkJN5owJopW4xpCzhq1eJ0BIMpbh43HI3azaDavRgB9T8oaDaelbtVVurmC1WKREv1HUiRLiOB07MA7SHsmYw6kevHstomj36cE74oQUU1hOPMSkCHXBbYfrvLM2MO7sF7ebJHP3vBf9sy2TBH3bNEznubDkM+xlPgDkAW/BCz6uVhF9XsA68qCBmcS8rITJy96eBcMUGwU0oWbWu6byUNdrlemS9Uv9Hw4E3nvey0Vo1XrQv3YOU9mpfTltUeNoWM0TBC9LY8+kaRLsQVYLDxqwIDAQAB",
+    "allowed_origins": [
+        "chrome-extension://cbgajbcfbegcaccdflcaejeaagaegcdc/"
+    ]
+}
