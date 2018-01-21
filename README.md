@@ -1,2 +1,2 @@
-# Productivity-Analytics
-Chrome extension + background app to record browsing activity and store in clean format for ML
+# Safety Net
+Chrome/Firefox extension that uses recurrent netoworks to classify and remove HTML elements that are linked to malicious URL's
