@@ -5,6 +5,8 @@ import json
 import torch
 from torch.autograd import Variable
 
+import numpy as np
+
 
 def load_model():
     global indices
@@ -13,12 +15,12 @@ def load_model():
     with open('datasets/indices.pkl', 'rb') as f:
         indices = pickle.load(f)
     
-    model = torch.load(model, 'char_rnn.pk')
+    model = torch.load('models/char_rnn.pk')
     model = model.type(torch.FloatTensor)
 
 @post('/predict')
 def index():
-    urls = request.json
+    urls = request.json['urls']
     print(urls)
     predictions = predict(urls)
     return predictions
@@ -44,7 +46,11 @@ def predict(urls):
     # use trained model to make predictions about maliciousness of urls
     X = torch.Tensor(url_array)
     X_var = Variable(X)
+    print(X_var)
+    print(X_var.size())
+    print(model)
     pred = model(url_array)
+    print(pred)
     
     return json.dumps(pred)
 
