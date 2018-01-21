@@ -1,0 +1,9 @@
+{
+    "name": "BackendPython",
+    "description": "...",
+    "path": "[[  Path to main.py  ]]",
+    "type": "stdio",
+    "allowed_extensions": [
+        "productivity-analytics@cruzhacks.com"
+    ]
+}
