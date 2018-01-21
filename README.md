@@ -3,6 +3,6 @@ Chrome/Firefox extension that uses recurrent networks to classify and warn you a
 
 The recurrent neural network was trained using ![this dataset](https://www.kaggle.com/antonyj453/urldataset)
 
-Example page with several malicious/safe links.
+Example page with several malicious/safe links highlighted by the system.
 
 ![screenshot](images/screenshot.jpeg "")
