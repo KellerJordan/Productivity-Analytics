@@ -9,11 +9,12 @@ def main(args):
     
     # load dataframe from csv
     urls_frame = pd.read_csv('datasets/data.csv')
-    # balance good/bad classes
-    urls_frame = urls_frame.sort_values('label')
+    # subsample to balance good/bad classes
     urls_frame = urls_frame.iloc[:151286]
     # shuffle and subsample
     urls_frame = urls_frame.sample(frac=1).reset_index(drop=True)
+    with open('datasets/df.pkl', 'wb') as f:
+        pickle.dump(urls_frame, f)
     urls_frame = urls_frame.iloc[:args.num_samples]
     # truncate urls
     urls_frame = urls_frame.applymap(lambda v: v[:args.seq_len])
@@ -36,11 +37,11 @@ def main(args):
     for i in range(args.num_chars):
         indices[char_f[i][0]] = i
     
-    # embed characters into numpy array (transition later to scipy sparse matrix)
+    # embed characters into numpy array
     url_array = np.zeros((args.seq_len, args.num_samples, args.num_chars+1))
     for i, url in enumerate(urls_frame['url']):
         for j, c in enumerate(url):
-            url_array[j, i, indices.get(c, num_chars)] = 1
+            url_array[j, i, indices.get(c, args.num_chars)] = 1
     
     # pickle data and index table
     with open('datasets/data.pkl', 'wb') as f:

@@ -16,7 +16,6 @@ def load_model():
         indices = pickle.load(f)
     
     model = torch.load('models/char_rnn.pk')
-    model = model.type(torch.FloatTensor)
 
 @post('/predict')
 def index():
